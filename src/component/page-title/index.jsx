@@ -12,7 +12,7 @@ class PageTitle extends React.Component{
     return (
       <div>
         <Breadcrumb>
-            <Breadcrumb.Item>{this.props.title}</Breadcrumb.Item>
+            <Breadcrumb.Item style={{fontSize: '18px',fontWeight: 'bold'}}>{this.props.title}</Breadcrumb.Item>
         </Breadcrumb>
       </div>
     )

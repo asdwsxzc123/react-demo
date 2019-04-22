@@ -6,28 +6,37 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, 'src/app.jsx')
+    app: path.resolve(__dirname, './src/app.jsx')
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[hash].js',
-    // publicPath: 'dist/'
+    publicPath: '/dist/'
   },
   devServer: {
     port: 8086,
+    clientLogLevel: 'warning',
     historyApiFallback: {
-      index: '/'
+      index: '/dist/index.html'
+    },
+    proxy: {
+      '/api': {
+        target: 'http://adminv2.happymmall.com',
+        changeOrigin: true, 
+        pathRewrite: {
+          '^/api': ''
+        },
+      },
     }
   },
   resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
-  },
-  resolve: {
+    extensions: ['.js','.jsx', '.json', '.scss'],
     alias: {
       page: path.resolve(__dirname, 'src/page'),
       component: path.resolve(__dirname, 'src/component'),
       util: path.resolve(__dirname, 'src/util'),
+      scss: path.resolve(__dirname, 'src/scss'),
+      service: path.resolve(__dirname, 'src/service'),
     }
   },
   module: {
@@ -85,7 +94,7 @@ module.exports = {
   },
   plugins: [
     // clear
-    new CleanWebpackPlugin(['dist']),
+    // new CleanWebpackPlugin(['dist']),
     // html
     new HTMLPlugin({
       template: 'src/index.html',

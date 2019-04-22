@@ -1,55 +1,67 @@
 
-import {baseUrl} from 'util/global.js'
-import { message } from 'antd';
+import {baseUrl} from 'util/config.js'
+import axios from 'axios'
+import Qs from 'qs'
+import {errorTips, doLogin} from 'util/common.js'
+import {Modal} from 'antd'
+var instance = axios.create({
+  baseURL: baseUrl,
+  timeout: 10000,
+  headers:{'Content-Type':'application/x-www-form-urlencoded'}
+});
 
-function postData(url, data) {
-  // Default options are marked with *
-  return fetch(baseUrl + url, {
-    body: JSON.stringify(data), // must match 'Content-Type' header
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, same-origin, *omit
-    headers: {
-      'user-agent': 'Mozilla/4.0 MDN Example',
-      'content-type': 'application/json'
-    },
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, cors, *same-origin
-    redirect: 'follow', // manual, *follow, error
-    referrer: 'no-referrer', // *client, no-referrer
-  })
-  .then(res => res.json())
-  .then(res => {
-    // res就是我们请求的repos
-    return handleData(res) 
-  }).catch((e) => {})
-}
-function getData(url) {
-  // Default options are marked with *
-  return fetch(baseUrl + url, {
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, same-origin, *omit
-    headers: {
-      'user-agent': 'Mozilla/4.0 MDN Example',
-      'content-type': 'application/json'
-    },
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, cors, *same-origin
-    redirect: 'follow', // manual, *follow, error
-    referrer: 'no-referrer', // *client, no-referrer
-  })
-  .then(res => res.json())
-  .then(res => {
-    // res就是我们请求的repos
-    return handleData(res) 
-  }).catch((e) => {})
-}
-function handleData(res) {
-  if (res.state !== '0') {
-    message.warning(res.message || '暂无提示');
+instance.interceptors.response.use(
+  response => {
+      // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
+      // 否则的话抛出错误
+      if (response.status === 200) {
+        return Promise.resolve(response);
+      } else {
+        return Promise.reject(response);
+      }
+  },
+  err => {
+    return Promise.reject(err);
   }
-  return res
+)
+
+export const request = (method,url,data) => {
+  return new Promise((resolve, reject) => {
+    instance[method](url, data)
+    .then(response => {
+      handleData(response.data)
+      resolve(response.data)
+    }).catch(err => {
+      reject(err)
+    })
+  }).catch(err => {
+    console.log('err', err);
+  })
 }
-export {
-  postData,
-  getData
+export const postData = (url, data = {}) => {
+  return request('post', url, Qs.stringify(data))
+}
+export const getData = (url,data = {}) => {
+  return request('get', url, {params: data})
+}
+
+function handleData(res) {
+  let status = res.status
+  if (status  === 10) {
+    Modal.
+    confirm({
+      title: '提示',
+      okText: '确认',
+      cancelText: '取消',
+      content: res.msg ||'',
+      onOk() {
+        doLogin()
+      },
+      onCancel() {
+        doLogin()
+      },
+    });
+  } else if (status !== 0) {
+    errorTips(res.msg)
+  }
 }

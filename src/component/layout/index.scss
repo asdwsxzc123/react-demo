@@ -9,3 +9,12 @@
   right: 15px;
   top: 12px;
 }
+
+@import '../../scss/var.scss';
+.ant-layout-header {
+  .logo {
+    width: 200px;
+    height: 200px;
+    float: left;
+  }
+}
