@@ -70,7 +70,6 @@ class Login extends React.Component {
                         <div className="form-group">
                           <input
                             type="text"
-                            autoComplete="off"
                             name="username"
                             value={this.state.username}
                             onChange={e => this.onInputchange(e)}
@@ -79,7 +78,6 @@ class Login extends React.Component {
                         <div className="form-group">
                           <input
                             type="password"
-                            autoComplete="off"
                             name="password"
                             value={this.state.password}
                             onChange={e => this.onInputchange(e)}

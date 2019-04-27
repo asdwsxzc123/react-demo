@@ -9,7 +9,6 @@ var instance = axios.create({
   timeout: 10000,
   headers:{'Content-Type':'application/x-www-form-urlencoded'}
 });
-
 instance.interceptors.response.use(
   response => {
       // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
@@ -25,9 +24,9 @@ instance.interceptors.response.use(
   }
 )
 
-export const request = (method,url,data) => {
+export const request = (method,url,data,config ={}) => {
   return new Promise((resolve, reject) => {
-    instance[method](url, data)
+    instance[method](url, data, config)
     .then(response => {
       handleData(response.data)
       resolve(response.data)
@@ -40,6 +39,11 @@ export const request = (method,url,data) => {
 }
 export const postData = (url, data = {}) => {
   return request('post', url, Qs.stringify(data))
+}
+export const formData = (url, data = {}) => {
+  return request('post', url, data, {
+    headers: { "content-type": "multipart/form-data" }
+  })
 }
 export const getData = (url,data = {}) => {
   return request('get', url, {params: data})

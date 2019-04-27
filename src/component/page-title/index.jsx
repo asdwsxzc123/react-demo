@@ -10,9 +10,10 @@ class PageTitle extends React.Component{
   }
   render() {
     return (
-      <div>
+      <div className="page-title">
         <Breadcrumb>
             <Breadcrumb.Item style={{fontSize: '18px',fontWeight: 'bold'}}>{this.props.title}</Breadcrumb.Item>
+            {this.props.children}
         </Breadcrumb>
       </div>
     )

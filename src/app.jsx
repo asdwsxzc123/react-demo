@@ -14,6 +14,7 @@ import Layout1 from "component/layout/index.jsx";
 import Login from "page/login/index.jsx";
 import Home from "page/home/index.jsx";
 import User from "page/user/index.jsx";
+import ProductRouter from "page/product/router";
 import ErrorPage from 'page/error/index';
 class App extends React.Component {
   render() {
@@ -21,6 +22,7 @@ class App extends React.Component {
       <Layout1>
         <Switch>
           <Route exact path="/" component={Home}/>
+          <Route path="/product" component={ProductRouter}></Route>
           <Route path="/user/index" component={User}></Route>
           <Redirect exact from="/user" to="/user/index"></Redirect>
           <Route component={ErrorPage}/>

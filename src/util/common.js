@@ -38,6 +38,10 @@ export const removeLocal = function (key) {
 export const errorTips =(errMsg) => {
   message.warning(errMsg || '暂无提示');
 }
+// 成功提示
+export const okTips =(okMsg) => {
+  message.success(okMsg || '暂无提示');
+}
 // 去首页
 export const doLogin = () => {
   removeLocal('userInfo')
