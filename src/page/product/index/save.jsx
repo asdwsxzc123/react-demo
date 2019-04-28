@@ -2,6 +2,12 @@ import React from "react";
 import PageTitle from "component/page-title/index";
 import CategorySelector from "./category-selector";
 import Avatar from "./upload";
+import {errorTips,okTips} from 'util/common'
+import {saveProduct} from 'service/product'
+// 引入编辑器组件
+import BraftEditor from 'braft-editor'
+// 引入编辑器样式
+import 'braft-editor/dist/index.css'
 class ProductSave extends React.Component {
   constructor(props) {
     super(props);
@@ -15,6 +21,7 @@ class ProductSave extends React.Component {
       price: "",
       stock: "",
       detail: "",
+      editorState: BraftEditor.createEditorState(null),
       status: 1 //商品状态1为在售
     };
   }
@@ -26,7 +33,6 @@ class ProductSave extends React.Component {
       [name]: value
     });
   }
-  onSubmit() {}
   onCategoryChange(categoryId, parentCategoryId) {
     this.setState({ categoryId, parentCategoryId });
   }
@@ -35,6 +41,49 @@ class ProductSave extends React.Component {
     subImages.push(subImage);
     this.setState({ subImages });
     console.log(this.state);
+  }
+
+  handleEditorChange (editorState) {
+    this.setState({ editorState })
+    const detail = this.state.editorState.toHTML()
+    this.setState({detail})
+  }
+  async onSubmit() {
+    let product = {
+      name: this.state.name,
+      subtitle: this.state.subtitle,
+      categoryId: this.state.categoryId,
+      parentCategoryId: this.state.parentCategoryId,
+      subImages: this.state.subImages.join(','),
+      price: this.state.price,
+      stock: this.state.stock,
+      detail: this.state.detail,
+      status: this.state.status,
+    }
+    let productCheckResult = this.checkProduct(product);
+    if (productCheckResult.status) {
+      let res = await saveProduct(product);
+      if (res.status === 0) {
+        okTips(res.data)
+      }
+    } else {
+      errorTips(productCheckResult.msg)
+    }
+  }
+  checkProduct(product) {
+    var status = 1
+    var msg = ''
+    for (const key in product) {
+      if (product.hasOwnProperty(key)) {
+        const element = product[key];
+        if (element === '') {
+          status = 0;
+          msg = key + ',参数不能为空!'
+          break;
+        } 
+      }
+    }
+    return {status,msg }
   }
   render() {
     return (
@@ -115,7 +164,12 @@ class ProductSave extends React.Component {
           </div>
           <div className="form-group">
             <label className="col-md-2 control-label">商品详情</label>
-            <div className="col-md-10"> </div>
+            <div className="col-md-10"> 
+              <BraftEditor
+                value={this.state.editorState}
+                onChange={editorState => this.handleEditorChange(editorState)}
+              />
+            </div>
           </div>
           <div className="form-group">
             <div className="col-md-10">

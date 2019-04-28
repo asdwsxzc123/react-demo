@@ -6,4 +6,6 @@ export const setProductStatus = params =>
 export const getCategoryList = params => 
   getData("/manage/category/get_category.do",params);
 export const uploadProductImg = params => 
-formData("/manage/product/upload.do",params);
+  formData("/manage/product/upload.do",params);
+export const saveProduct = params => 
+  postData("/manage/product/save.do",params);

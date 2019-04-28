@@ -34,6 +34,7 @@ export const request = (method,url,data,config ={}) => {
       reject(err)
     })
   }).catch(err => {
+    errorTips('连接失败!');
     console.log('err', err);
   })
 }
