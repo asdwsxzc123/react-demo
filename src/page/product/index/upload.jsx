@@ -26,8 +26,12 @@ class Avatar extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      subImg: ""
+      subImg: "",
+      imgList: []
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({imgList:nextProps.imgList})
   }
   handleChange(info) {
     if (info.file.status === "uploading") {
@@ -56,7 +60,10 @@ class Avatar extends React.Component {
     let res = await uploadProductImg(form);
     if (res.status === 0) {
       info.file.status = 'done';
-      info.subImage = res.data.uri;
+      info.subImage = {
+        uri: res.data.uri,
+        url: res.data.url
+      };
       this.handleChange(info)
     }
   }
@@ -81,6 +88,7 @@ class Avatar extends React.Component {
         className="avatar-uploader"
         showUploadList={false}
         beforeUpload={beforeUpload}
+        defaultFileList={[...this.state.imgList]}
         customRequest={info => this.customRequest(info)}
         onChange={info => this.handleChange(info)}
       >

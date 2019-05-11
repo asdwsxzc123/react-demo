@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Breadcrumb } from "antd";
-import NavSide from "../nav-side/index.jsx";
-import NavTop from "../nav-top/index.jsx";
+import NavSide from "../nav-side/index";
+import NavTop from "../nav-top/index";
 const { Header, Sider, Content } = Layout;
 import "./index.scss";
 class Layout1 extends React.Component {

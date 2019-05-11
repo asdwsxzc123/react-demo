@@ -3,7 +3,7 @@ import PageTitle from "component/page-title/index";
 import CategorySelector from "./category-selector";
 import Avatar from "./upload";
 import {errorTips,okTips} from 'util/common'
-import {saveProduct} from 'service/product'
+import {saveProduct, getProductInfo} from 'service/product'
 // 引入编辑器组件
 import BraftEditor from 'braft-editor'
 // 引入编辑器样式
@@ -25,6 +25,29 @@ class ProductSave extends React.Component {
       status: 1 //商品状态1为在售
     };
   }
+  componentDidMount() {
+    if (this.state.id > 0) {
+      this.getProductDetail()
+    }
+  }
+  
+  async getProductDetail() {
+    let res = await getProductInfo({productId: this.state.id});
+    if (res.status === 0) {
+      let data = res.data
+      let imgs = data.subImages ? data.subImages.split(',') : [];
+      data.subImages = imgs.map(img => {
+        return {
+          uri: img.uri,
+          url: data.imageHost + img.uri
+        }
+      })
+      this.setState(data);
+      this.setState({
+        editorState: BraftEditor.createEditorState(data.detail)
+    })
+    }
+  }
   // 简单字段的改变，比如商品名称，描述，价格，库存
   onValueChange(e) {
     let name = e.target.name,
@@ -40,7 +63,6 @@ class ProductSave extends React.Component {
     let subImages = this.state.subImages;
     subImages.push(subImage);
     this.setState({ subImages });
-    console.log(this.state);
   }
 
   handleEditorChange (editorState) {
@@ -53,14 +75,17 @@ class ProductSave extends React.Component {
       name: this.state.name,
       subtitle: this.state.subtitle,
       categoryId: this.state.categoryId,
-      parentCategoryId: this.state.parentCategoryId,
-      subImages: this.state.subImages.join(','),
+      subImages: this.state.subImages,
       price: this.state.price,
       stock: this.state.stock,
       detail: this.state.detail,
       status: this.state.status,
     }
     let productCheckResult = this.checkProduct(product);
+    if (this.state.id) {
+      product.id = this.state.id
+    }
+    console.log(product);
     if (productCheckResult.status) {
       let res = await saveProduct(product);
       if (res.status === 0) {
@@ -119,6 +144,8 @@ class ProductSave extends React.Component {
           <div className="form-group">
             <label className="col-md-2 control-label">所属分类</label>
             <CategorySelector
+              parentCategoryId={this.state.parentCategoryId}
+              categoryId={this.state.categoryId}
               onCategoryChange={(categoryId, parentCategoryId) =>
                 this.onCategoryChange(categoryId, parentCategoryId)
               }
@@ -159,7 +186,10 @@ class ProductSave extends React.Component {
           <div className="form-group">
             <label className="col-md-2 control-label">商品图片</label>
             <div className="col-md-3">
-              <Avatar onImgChange={subImage => this.onImgChange(subImage)} />
+              <Avatar 
+                imgList={this.state.subImages}
+                onImgChange={subImage => this.onImgChange(subImage)} 
+              />
             </div>
           </div>
           <div className="form-group">

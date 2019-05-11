@@ -21,9 +21,12 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:9000',
-        // target: 'http://adminv2.happymmall.com',
+        // target: 'http://localhost:9000',
+        target: 'http://adminv2.happymmall.com',
         changeOrigin: true, 
+        pathRewrite: {
+          '^/api': ''
+        },
       },
     }
   },

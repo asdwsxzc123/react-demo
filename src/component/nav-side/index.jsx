@@ -33,7 +33,7 @@ class NavSide extends React.Component {
               <NavLink to="/product">商品管理</NavLink>
             </Menu.Item>
             <Menu.Item key="6">
-              <NavLink to="/product.category">品类管理</NavLink>
+              <NavLink to="/product/category">品类管理</NavLink>
             </Menu.Item>
           </SubMenu>
           <SubMenu key="sub4" title={<span><i className="fa fa-check-square-o mr5"></i><span>订单</span></span>}>

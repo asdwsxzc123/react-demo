@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom'
-import PageTitle from "component/page-title/index.jsx";
-import {getHomeCount} from 'service/user.jsx'
+import PageTitle from "component/page-title/index";
+import {getHomeCount} from 'service/user'
 import {STATUS_OK} from 'util/global'
 import './index.scss'
 class Home extends React.Component{

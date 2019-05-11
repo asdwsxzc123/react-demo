@@ -6,7 +6,7 @@ import {errorTips, doLogin} from 'util/common.js'
 import {Modal} from 'antd'
 var instance = axios.create({
   baseURL: baseUrl,
-  timeout: 10000,
+  timeout: 15000,
   headers:{'Content-Type':'application/x-www-form-urlencoded'}
 });
 instance.interceptors.response.use(

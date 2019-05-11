@@ -1,9 +1,9 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox } from "antd";
 import "./index.scss";
-import { login } from "service/user.jsx";
-import { type, errorTips } from "util/common.js";
-import { setLocal } from "util/common.js";
+import { login } from "service/user";
+import { type, errorTips } from "util/common";
+import { setLocal } from "util/common";
 
 class Login extends React.Component {
   constructor(props) {

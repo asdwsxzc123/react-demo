@@ -8,7 +8,7 @@ import React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import {getLocal, removeLocal} from 'util/common.js'
 import './index.scss'
-import {logout} from 'service/user.jsx'
+import {logout} from 'service/user'
 const myLogout = async({ key }) => {
     let res = await logout()
     if (res.status === 0) {
