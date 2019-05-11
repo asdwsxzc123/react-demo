@@ -38,7 +38,7 @@ then
   rm -rf $DEST_PATH/dist
 
   echo -e "------- copy dist ---------"
-  cp -R $DEST_PATH/$1/
+  cp -R ./dist $DEST_PATH/$1/
 
   echo -e "------- deploy success ---------"
 else 
