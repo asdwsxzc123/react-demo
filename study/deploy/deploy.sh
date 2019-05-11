@@ -3,7 +3,7 @@
 GIT_HOME=/root/git/
 DEST_PATH=/root/project/front/
 
-if [ ! -n "$1"];
+if [ ! -n $1];
 then
   echo -e "please input a project name! you can input as follows:"
   echo -e "./deploy.sh react-dom"
