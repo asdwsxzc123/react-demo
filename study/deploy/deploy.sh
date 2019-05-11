@@ -6,11 +6,11 @@ echo $1
 if [ ! -n "$1" ];
 then
   echo -e "please input a project name! you can input as follows:"
-  echo -e "./deploy.sh react-dome"
+  echo -e "./deploy.sh react-demo"
   exit
 fi
 
-if [ $1 = "react-dome" ];
+if [ $1 = "react-demo" ];
 then
   echo -e "--------enter project--------"
   cd $GIT_HOME$1;
@@ -30,7 +30,7 @@ echo -e "-----yarn install-----"
 yarn
 
 echo -e "-----yarn run dist-----"
-yarn dist
+yarn build
 
 if [ -d "./dist" ];
 then 
