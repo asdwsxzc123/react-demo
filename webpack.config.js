@@ -15,7 +15,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[hash].js',
     publicPath: WEBPACK_ENV === 'dev' 
-      ? '/dist/' : '//94.191.65.35/react-project/dist/'
+      ? '/dist/' : './'
   },
   devServer: {
     port: 8086,
