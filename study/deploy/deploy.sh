@@ -30,7 +30,7 @@ echo -e "-----yarn install-----"
 yarn
 
 echo -e "-----yarn run dist-----"
-yarn build
+yarn dist
 
 if [ -d "./dist" ];
 then 
