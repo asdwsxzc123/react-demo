@@ -4,6 +4,9 @@ var webpack = require('webpack');
 // 导入非 webpack 自带默认插件
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+let WEBPACK_ENV = process.env.WEBPACK_ENV || 'dev';
+console.log(WEBPACK_ENV);
+
 module.exports = {
   entry: {
     app: path.resolve(__dirname, './src/app.jsx')
@@ -11,7 +14,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'js/[name].[hash].js',
-    publicPath: '/dist/'
+    publicPath: WEBPACK_ENV === 'dev' 
+      ? '/dist/' : '//94.191.65.35/react-project/dist/'
   },
   devServer: {
     port: 8086,

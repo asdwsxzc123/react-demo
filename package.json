@@ -6,7 +6,9 @@
   "author": "asdwsxzc123 <sbfgeyygy@126.com>",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "dev": "webpack-dev-server  --progress --colors "
+    "dev": "webpack-dev-server  --progress --colors ",
+    "dist": "WEBPACK_ENV=online node_modules/.bin/webpack -p",
+    "dist_win": "set WEBPACK_ENV=online&& node_modules/.bin/webpack -p"
   },
   "license": "MIT",
   "devDependencies": {
