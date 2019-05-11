@@ -2,15 +2,15 @@
 
 GIT_HOME=/root/git/
 DEST_PATH=/root/project/front/
-
-if [ ! -n $1];
+echo $1
+if [ ! -n "$1" ];
 then
   echo -e "please input a project name! you can input as follows:"
   echo -e "./deploy.sh react-dom"
   exit
 fi
 
-if [ $1 = "react-dom"];
+if [ $1 = "react-dom" ];
 then
   echo -e "--------enter project--------"
   cd $GIT_HOME$1;
@@ -32,7 +32,7 @@ yarn
 echo -e "-----yarn run dist-----"
 yarn dist
 
-if [-d "./dist"];
+if [ -d "./dist" ];
 then 
   echo -e "------- clean dist ---------"
   rm -rf $DEST_PATH/dist
