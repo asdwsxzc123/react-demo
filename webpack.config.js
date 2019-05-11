@@ -23,6 +23,8 @@ module.exports = {
     historyApiFallback: {
       index: '/dist/index.html'
     },
+    host: '0.0.0.0',
+    disableHostCheck: true,
     proxy: {
       '/api': {
         // target: 'http://localhost:9000',
