@@ -1,7 +1,7 @@
 #!/bin/sh
 
 GIT_HOME=/root/git/
-DEST_PATH=/root/project/front/
+DEST_PATH=/root/project/front
 echo $1
 if [ ! -n "$1" ];
 then
@@ -30,7 +30,7 @@ echo -e "-----yarn install-----"
 yarn
 
 echo -e "-----yarn run dist-----"
-yarn build
+yarn buildg
 
 if [ -d "./dist" ];
 then 
